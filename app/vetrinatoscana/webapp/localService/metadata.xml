@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:DataServices>
+        <Schema Namespace="CatalogService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="AnagraficaBotteghe" EntityType="CatalogService.AnagraficaBotteghe">
+                    <NavigationPropertyBinding Path="menu" Target="AnagraficaMenu"/>
+                </EntitySet>
+                <EntitySet Name="AnagraficaMenu" EntityType="CatalogService.AnagraficaMenu">
+                    <NavigationPropertyBinding Path="ristorante" Target="AnagraficaBotteghe"/>
+                </EntitySet>
+                <EntitySet Name="OrderItems" EntityType="CatalogService.OrderItems"/>
+                <EntitySet Name="Orders" EntityType="CatalogService.Orders"/>
+                <EntitySet Name="Customers" EntityType="CatalogService.Customers"/>
+            </EntityContainer>
+            <EntityType Name="AnagraficaBotteghe">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+                <NavigationProperty Name="menu" Type="Collection(CatalogService.AnagraficaMenu)" Partner="ristorante"/>
+                <Property Name="comune" Type="Edm.String"/>
+                <Property Name="provincia" Type="Edm.String"/>
+                <Property Name="tipologia" Type="Edm.String"/>
+                <Property Name="nome" Type="Edm.String"/>
+                <Property Name="Via" Type="Edm.String"/>
+                <Property Name="citta" Type="Edm.String"/>
+                <Property Name="CAP" Type="Edm.String" MaxLength="5"/>
+                <Property Name="mail" Type="Edm.String"/>
+                <Property Name="telefono" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="AnagraficaMenu">
+                <Key>
+                    <PropertyRef Name="id"/>
+                    <PropertyRef Name="id_ristorante"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="id_ristorante" Type="Edm.Int32" Nullable="false"/>
+                <NavigationProperty Name="ristorante" Type="CatalogService.AnagraficaBotteghe" Partner="menu">
+                    <ReferentialConstraint Property="ristorante_id" ReferencedProperty="id"/>
+                </NavigationProperty>
+                <Property Name="ristorante_id" Type="Edm.Int32"/>
+                <Property Name="categoria" Type="Edm.String"/>
+                <Property Name="nome" Type="Edm.String"/>
+                <Property Name="prezzo" Type="Edm.Int32"/>
+                <Property Name="currency" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="OrderItems">
+                <Key>
+                    <PropertyRef Name="order_id"/>
+                </Key>
+                <Property Name="order_id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="orderItem_id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="id_menu" Type="Edm.Int32"/>
+                <Property Name="id_ristorante" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="Orders">
+                <Key>
+                    <PropertyRef Name="order_id"/>
+                </Key>
+                <Property Name="order_id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="customer_id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="order_date" Type="Edm.Date" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="Customers">
+                <Key>
+                    <PropertyRef Name="customer_id"/>
+                </Key>
+                <Property Name="customer_id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="customer_name" Type="Edm.String"/>
+            </EntityType>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
